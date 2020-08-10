@@ -1,0 +1,122 @@
+<div class="container">
+    <div class="row">
+        <div *ngFor="let stock of stocks" class="card border-primary mb-3" style="max-width: 18rem;">
+            <div class="card-header">
+                <span>{{stock.companyName}}</span>
+                <!-- <span>Amazon</span> -->
+                <span class="addToWatchList">
+                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-file-plus" fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M4 1h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H4z" />
+                        <path fill-rule="evenodd"
+                            d="M8 5.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 .5-.5z" />
+                    </svg>
+                </span>
+            </div>
+            <div class="card-body">
+                <div>
+                    <h6 class="card-title">Current Price</h6>
+                    <p class="card-text text-success">{{stock.currentPrice}}</p>
+
+                    <div *ngIf="stock.isNegative; else elseBlock" class="percentdiffNeg">
+                        <span>{{stock.differenceAmount}} ({{stock.percentDifference}}%)</span>
+                    </div>
+                    <!-- <div *ngIf="!amazonNeg" class="percentdiffPos">
+                        <span> {{amazonPercentDifference}}%</span>
+                    </div> -->
+                    <ng-template #elseBlock>
+                        <div class="percentdiffPos">
+                            <span>{{stock.differenceAmount}} ({{stock.percentDifference}}%)</span>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="card border-primary mb-3" style="max-width: 18rem;">
+            <div class="card-header">
+                <span>Tesla</span>
+                <span class="addToWatchList">
+                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-file-plus" fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M4 1h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H4z" />
+                        <path fill-rule="evenodd"
+                            d="M8 5.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 .5-.5z" />
+                    </svg>
+                </span>
+            </div>
+            <div class="card-body">
+                <h6 class="card-title">Current Price</h6>
+                <p class="card-text text-success">{{teslaCurrentPrice}}</p>
+            </div>
+        </div>
+        <div class="card border-primary mb-3" style="max-width: 18rem;">
+            <div class="card-header">
+                <span>Microsoft</span>
+                <span class="addToWatchList">
+                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-file-plus" fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M4 1h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H4z" />
+                        <path fill-rule="evenodd"
+                            d="M8 5.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 .5-.5z" />
+                    </svg>
+                </span>
+            </div>
+            <div class="card-body">
+                <h6 class="card-title">Current Price</h6>
+                <p class="card-text text-success">{{microsoftCurrentPrice}}</p>
+            </div>
+        </div>
+        <div class="card border-primary mb-3" style="max-width: 18rem;">
+            <div class="card-header">
+                <span>Facebook</span>
+                <span class="addToWatchList">
+                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-file-plus" fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M4 1h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H4z" />
+                        <path fill-rule="evenodd"
+                            d="M8 5.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 .5-.5z" />
+                    </svg>
+                </span>
+            </div>
+            <div class="card-body">
+                <h6 class="card-title">Current Price</h6>
+                <p class="card-text text-success">{{facebookCurrentPrice}}</p>
+            </div>
+        </div>
+        <div class="card border-primary mb-3" style="max-width: 18rem;">
+            <div class="card-header">
+                <span>Netflix</span>
+                <span class="addToWatchList">
+                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-file-plus" fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M4 1h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H4z" />
+                        <path fill-rule="evenodd"
+                            d="M8 5.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 .5-.5z" />
+                    </svg>
+                </span>
+            </div>
+            <div class="card-body">
+                <h6 class="card-title">Current Price</h6>
+                <p class="card-text text-success">{{netflixCurrentPrice}}</p>
+            </div>
+        </div> -->
+    </div>
+
+    <!-- <button class="btn btn-primary" (click)="getAmazonStockPrice()">Get Amazon Stock Price</button>
+    <button class="btn btn-primary" (click)="getRandomStockPrice()">Get Random Stock Price</button>
+
+    <p>Amazon Current Price {{amazonCurrentPrice}}</p>
+    <p>Tesla Current Price {{teslaCurrentPrice}}</p>
+    <p>Microsoft Current Price {{microsoftCurrentPrice}}</p>
+    <p>Facebook Current Price {{facebookCurrentPrice}}</p>
+    <p>Netflix Current Price {{netflixCurrentPrice}}</p>
+
+    <br>
+    <p>Random Price {{randomStockPrice}}</p> -->
+
+</div>

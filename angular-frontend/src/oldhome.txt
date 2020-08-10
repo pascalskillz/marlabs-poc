@@ -1,0 +1,195 @@
+import { Component, OnInit } from '@angular/core';
+import { StockService } from "src/app/services/stock.service"
+import { Router, NavigationEnd } from "@angular/router"
+import { Subject, Subscription } from 'rxjs';
+import { Stock } from "src/app/models/stock"
+
+
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
+})
+export class HomeComponent implements OnInit {
+
+  //amazonCurrentPrice: Subject<Number> = new Subject<Number>();
+  /* amazonCurrentPrice: number = 0.00;
+  amazonLastPrice: number = 2900;
+  amazonPercentDifference: Number = 0.00;
+  amazonIsNegative: boolean = false;
+  amazonDifferenceAmount: any
+  amazonSub: Subscription */
+  stocks: Stock[] = []
+
+  // teslaCurrentPrice: number;
+  // teslaLastPrice: number = 1550;
+  // teslaPercentDifference: number = 0.00;
+  // teslaIsNegative: boolean = false;
+  // teslaDifferenceAmount: any
+  // teslaSub: Subscription
+
+  // netflixCurrentPrice: number;
+  // netflixSub: Subscription
+
+  // facebookCurrentPrice: number;
+  // facebookSub: Subscription
+
+  // microsoftCurrentPrice: number;
+  // microsoftSub: Subscription
+
+  randomStockPrice: number;
+
+  constructor(private stockService: StockService, private router: Router) {
+
+    // this.router.routeReuseStrategy.shouldReuseRoute = function () {
+    //   return true;
+    // };
+    this.router.events.subscribe((evt) => {
+      if (evt instanceof NavigationEnd) {
+        // trick the Router into believing it's last link wasn't previously loaded
+        this.router.navigated = false;
+        // this.reloadCurrentRoute()
+      }
+    });
+  }
+
+  ngOnInit(): void {
+    /* this.getStockPrice("TSLA", this.teslaCurrentPrice);
+    this.getStockPrice("AMZN", this.amazonCurrentPrice);
+    this.getStockPrice("MSFT", this.microsoftCurrentPrice);
+    this.getStockPrice("NFLX", this.netflixCurrentPrice);
+    this.getStockPrice("FB", this.facebookCurrentPrice); */
+    const amazonStock = new Stock("Amazon", "AMZN", 2900, 0);
+    this.stocks.push(amazonStock)
+
+    const teslaStock = new Stock("Tesla", "TSLA", 1500, 0);
+    this.stocks.push(teslaStock)
+
+    const microsoftStock = new Stock("Microsoft", "MSFT", 190, 0);
+    this.stocks.push(microsoftStock);
+
+    const facebookStock = new Stock("Facebook", "FB", 240, 0);
+    this.stocks.push(facebookStock);
+
+    const netflix = new Stock("Netflix", "NFLX", 500, 0);
+    this.stocks.push(facebookStock);
+
+    for(const stock of this.stocks){
+      this.getStockPrice(stock);
+    }
+
+    var st = setInterval(() => {
+      for(const stock of this.stocks){
+        this.getPercentageChange(stock)
+      }
+    }, 1000)
+  }
+
+
+  getStockPrice(stock: Stock) {
+    this.stockService.getStockPrice(stock.stockSymbol).subscribe(resPrice => {
+      stock.currentPrice = resPrice;
+    })
+  }
+
+  getPercentageChange(stock: Stock) {
+    stock.differenceAmount = this.formatNumber(stock.currentPrice - stock.lastPrice);
+    stock.percentDifference = this.formatNumber(stock.differenceAmount / stock.currentPrice * 100);
+    stock.isNegative = stock.percentDifference < 0 ? true : false
+    stock.differenceAmount = stock.differenceAmount > 0 ? "+" + stock.differenceAmount : stock.differenceAmount;
+  }
+
+
+  /*   ngOnDestroy() {
+      if (this.amazonSub)
+        this.amazonSub.unsubscribe();
+      if (this.facebookSub)
+        this.facebookSub.unsubscribe();
+      if (this.teslaSub)
+        this.teslaSub.unsubscribe();
+      if (this.microsoftSub)
+        this.microsoftSub.unsubscribe();
+      if (this.netflixSub)
+        this.netflixSub.unsubscribe();
+    }
+   */
+
+  /* getAmazonStockPrice() {
+    let symbol = "AMZN"
+    this.amazonSub = this.stockService.getStockPrice(symbol).subscribe(resPrice => {
+      this.amazonCurrentPrice = parseFloat(resPrice);
+    })
+  } */
+  // getFacebookStockPrice() {
+  //   let symbol = "FB"
+  //   this.facebookSub = this.stockService.getStockPrice(symbol).subscribe(resPrice => {
+  //     this.facebookCurrentPrice = parseFloat(resPrice);
+  //   })
+  // }
+  // getTeslaStockPrice() {
+  //   let symbol = "TSLA"
+  //   this.teslaSub = this.stockService.getStockPrice(symbol).subscribe(resPrice => {
+  //     this.teslaCurrentPrice = parseFloat(resPrice);
+  //   })
+  // }
+  // getMicrosoftStockPrice() {
+  //   let symbol = "MSFT"
+  //   this.microsoftSub = this.stockService.getStockPrice(symbol).subscribe(resPrice => {
+  //     this.microsoftCurrentPrice = parseFloat(resPrice);
+  //   })
+  // }
+  // getNetflixStockPrice() {
+  //   let symbol = "NFLX"
+  //   this.netflixSub = this.stockService.getStockPrice(symbol).subscribe(resPrice => {
+  //     this.netflixCurrentPrice = parseFloat(resPrice);
+  //   })
+  // }
+
+  /*    getPercentageChange() {
+       //let difference = 0.00;
+       this.getTheChangePercent();
+     }
+    private getTheChangePercent() {
+      this.amazonDifferenceAmount = this.formatNumber(this.amazonCurrentPrice - this.amazonLastPrice);
+      // console.log(`PercentDifference1 ${this.amazonPercentDifference} currentPrice ${this.amazonCurrentPrice}`)
+      this.amazonPercentDifference = this.formatNumber(this.amazonDifferenceAmount / this.amazonCurrentPrice * 100);
+      this.amazonIsNegative = this.amazonPercentDifference < 0 ? true : false;
+      this.amazonDifferenceAmount = this.amazonDifferenceAmount > 0 ? "+" + this.amazonDifferenceAmount : this.amazonDifferenceAmount;
+    } */
+
+  // getPercentageChange(differenceAmount: any, percentDifference: Number, currentPrice: number, lastPrice: number, isNegative: boolean) {
+  //   differenceAmount = this.formatNumber(currentPrice - lastPrice);
+  //   percentDifference = this.formatNumber(differenceAmount / currentPrice * 100);
+  //   isNegative = percentDifference < 0 ? true : false;
+  //   differenceAmount = differenceAmount > 0 ? "+" + differenceAmount : differenceAmount;
+  //   console.log(`Difference ${differenceAmount} isNegative ${isNegative}`)
+  // }
+
+  /* getStockPrice(stockCode: string, company: number) {
+    this.stockService.getStockPrice(stockCode).subscribe(resPrice => {
+      company = parseFloat(resPrice);
+    })
+  } */
+
+  
+
+
+
+  getRandomStockPrice() {
+    this.stockService.getPrice().subscribe(resPrice => {
+      this.randomStockPrice = resPrice;
+    })
+  }
+
+  formatNumber(val: number) {
+    return Math.round(val * 100.0) / 100.0;
+  }
+
+  /* reloadCurrentRoute() {
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
+    });
+  } */
+
+}

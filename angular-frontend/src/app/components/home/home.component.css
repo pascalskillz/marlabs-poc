@@ -1,0 +1,18 @@
+div.row {
+    display: flex;
+    justify-content: space-around;
+}
+.addToWatchList {
+    position: absolute;
+    right: 4px;
+    top: 9px;
+}
+.bi.bi-file-plus{
+    color: #007bff;
+}
+.percentdiffNeg span {
+    color: #db4437;
+}
+.percentdiffPos {
+    color:#0f9d58;
+}
